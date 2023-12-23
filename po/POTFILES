@@ -1,0 +1,3 @@
+src/Application.vala
+data/gtk-hello.desktop.in
+data/gtk-hello.metainfo.xml.in

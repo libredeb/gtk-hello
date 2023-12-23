@@ -11,6 +11,9 @@ public class MyApp : Gtk.Application {
     }
     
     protected override void activate () {
+        string init_message = _("Loading user interface...");
+        message (init_message);
+        
         var label = new Gtk.Label ("Hello World!");
        
         var main_window = new Gtk.ApplicationWindow (this) {
@@ -24,6 +27,7 @@ public class MyApp : Gtk.Application {
     }
     
     public static int main (string[] args) {
+        stdout.printf (_("Starting My App...\n"));
         return new MyApp ().run (args);
     }
 }

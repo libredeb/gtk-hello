@@ -1,0 +1,50 @@
+# German translation for com.github.libredeb.gtk-hello package.
+# Copyright (C) 2023 THE com.github.libredeb.gtk-hello'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the com.github.libredeb.gtk-hello package.
+# Automatically generated, 2023
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: com.github.libredeb.gtk-hello\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-23 11:51+0200\n"
+"PO-Revision-Date: 2023-12-23 11:51+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/Application.vala:14
+msgid "Loading user interface..."
+msgstr ""
+
+#: src/Application.vala:30
+msgid "Starting My App...\n"
+msgstr ""
+
+#: data/gtk-hello.desktop.in:6
+msgid "My App"
+msgstr ""
+
+#: data/gtk-hello.desktop.in:7
+msgid "Proves that we can use Vala and GTK+"
+msgstr ""
+
+#: data/gtk-hello.metainfo.xml.in:9
+msgid "MyApp"
+msgstr ""
+
+#: data/gtk-hello.metainfo.xml.in:10 data/gtk-hello.metainfo.xml.in:16
+msgid "Example App to Test GTK4 and Vala"
+msgstr ""
+
+#: data/gtk-hello.metainfo.xml.in:32
+msgid "Initial release, includes features such as:"
+msgstr ""
+
+#: data/gtk-hello.metainfo.xml.in:34
+msgid "Application can be launched"
+msgstr ""
