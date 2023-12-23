@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <branding>
+    <color type="primary">#f37329</color>
+  </branding>
+
+  <id>com.github.libredeb.gtkhello</id>
+  
+  <name>MyApp</name>
+  <summary>Example App to Test GTK4 and Vala</summary>
+  
+  <metadata_license>CC-BY-4.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  
+  <description>
+    <p>
+      Example App to Test GTK4 and Vala
+    </p>
+  </description>
+  
+  <launchable type="desktop-id">gtk-hello.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      
+      <image>https://tecnocode.co.uk/misc/platform-demos/media/hello-world.png</image>
+    </screenshot>
+  </screenshots>
+  
+  <releases>
+    <release version="1.0.0" date="2023-12-23">
+      <description>
+        <p>Initial release, includes features such as:</p>
+        <ul>
+          <li>Application can be launched</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+</component>
