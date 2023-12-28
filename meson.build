@@ -54,3 +54,10 @@ foreach i : icon_sizes
         rename: meson.project_name() + '.svg'
     )
 endforeach
+
+# Install D-Bus service, so that application can be started by D-Bus
+install_data(
+    'data' / 'gtk-hello.service',
+    install_dir: get_option('datadir') / 'dbus-1' / 'services',
+    rename: meson.project_name() + '.service',
+)

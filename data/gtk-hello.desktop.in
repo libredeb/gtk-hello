@@ -9,3 +9,5 @@ Categories=Development;Education;
 Icon=com.github.libredeb.gtk-hello
 Exec=com.github.libredeb.gtk-hello
 Terminal=false
+
+X-GNOME-UsesNotifications=true

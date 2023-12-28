@@ -2,6 +2,8 @@
 
 This is an example Vala and GTK+ 4 Application (includes i18n translations, icons, metadata for appstore, and more).
 
+![screenshot](./data/images/screenshot.png)
+
 ## i18n Translations
 
 To take in consideration, when you need to generate the pot template and translatable files. First you need to create manually each `.po` language file. Then run next commands:

@@ -22,6 +22,7 @@ public class MyApp : Gtk.Application {
     
     protected override void activate () {
         string init_message = _("Loading user interface...");
+        // other options: warning ("text"), error ("text"), critical ("text")
         message (init_message);
         
         // Actions Example, see startup () method too
@@ -56,12 +57,37 @@ public class MyApp : Gtk.Application {
         };
         menu_button.add_css_class (Granite.STYLE_CLASS_LARGE_ICONS);
         
-        var headerbar = new Gtk.HeaderBar () {
-            show_title_buttons = true
+        var start_headerbar = new Gtk.HeaderBar () {
+            show_title_buttons = false,
+            title_widget = new Gtk.Label ("")
         };
+        start_headerbar.add_css_class (Granite.STYLE_CLASS_FLAT);
         
         //headerbar.pack_start (quit_button);
-        headerbar.pack_end (menu_button);
+        start_headerbar.pack_start (new Gtk.WindowControls (Gtk.PackType.START));
+        
+        var start_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
+            width_request = 200
+        };
+        start_box.append (start_headerbar);
+        var option1_button = new Gtk.Button.with_label ("Option 1");
+        option1_button.add_css_class (Granite.STYLE_CLASS_FLAT);
+        start_box.append (option1_button);
+        
+        var end_headerbar = new Gtk.HeaderBar() {
+            show_title_buttons = false
+        };
+        end_headerbar.add_css_class (Granite.STYLE_CLASS_FLAT);
+        
+        /* 
+         * The order really matters, pack a widget to the end and always
+         * replace the last widget in his palce.
+         */
+        end_headerbar.pack_end (new Gtk.WindowControls (Gtk.PackType.END));
+        end_headerbar.pack_end (menu_button);
+        
+        var end_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+        end_box.append (end_headerbar);
         
         /* Gtk.Box Example:
          *
@@ -73,11 +99,30 @@ public class MyApp : Gtk.Application {
          
         /* Gtk.Grid Example: */
         // First we create all the widgets we want to lay out in our grid
-        var hello_button = new Gtk.Button.with_label (_("Hello"));
+        var hello_button = new Gtk.Button.with_label (_("Show Notification"));
+        hello_button.add_css_class (Granite.STYLE_CLASS_DESTRUCTIVE_ACTION);
+        hello_button.clicked.connect (() => {
+            var notification = new Notification ("Welcome to My App");
+            notification.set_body ("This is a notification!");
+            notification.set_icon (new ThemedIcon ("process-completed"));
+            notification.add_button ("Quit My App", "app.quit");
+            notification.set_priority (NotificationPriority.URGENT);
+            send_notification ("my-notification", notification);
+        });
         var hello_label = new Gtk.Label (_("Label 1"));
         
-        var goodbye_button = new Gtk.Button.with_label (_("Goodbye"));
+        var goodbye_button = new Gtk.Button.with_label (_("Replace Notification"));
+        goodbye_button.add_css_class (Granite.STYLE_CLASS_SUGGESTED_ACTION);
+        goodbye_button.clicked.connect (() => {
+            var notification = new Notification ("Hello Again");
+            notification.set_body ("This is a second Notification!");
+            
+            send_notification ("my-notification", notification);
+        });
         var goodbye_label = new Gtk.Label (_("Label 2"));
+        
+        var vertical_separator = new Gtk.Separator (Gtk.Orientation.VERTICAL);
+        vertical_separator.set_opacity (0);
         
         // Then we create a new Grid and set its spacing properties
         var grid = new Gtk.Grid () {
@@ -87,25 +132,58 @@ public class MyApp : Gtk.Application {
         
         // Finally, we attach those widgets to the Grid.
         // Attach first row of widgets --> attach (column, row, width. height)
-        grid.attach (hello_button, 0, 0, 1, 1);
-        grid.attach (hello_label, 1, 0, 1, 1);
+        grid.attach (hello_button, 1, 0, 1, 1);
+        grid.attach (hello_label, 2, 0, 1, 1);
         
         // Attach second row of widgets
-        grid.attach (goodbye_button, 0, 1);
+        grid.attach (goodbye_button, 1, 2);
         grid.attach_next_to (
             goodbye_label,
             goodbye_button,
             Gtk.PositionType.BOTTOM, // To which side of widget
             1, 1
         );
+        grid.attach (vertical_separator, 0, 0, 1, 9);
         
-       
+        
+        // Badges and Progress bars
+        var badge_button = new Gtk.Button.with_label ("Show badge");
+        badge_button.clicked.connect (() => {
+            Granite.Services.Application.set_badge_visible.begin (true);
+            Granite.Services.Application.set_badge.begin (12);
+        });
+        
+        grid.attach (badge_button, 2, 3, 1, 1);
+        
+        var progress_button = new Gtk.Button.with_label ("Show progressbar");
+        progress_button.clicked.connect (() => {
+            Granite.Services.Application.set_progress_visible.begin (true);
+            Granite.Services.Application.set_progress.begin (0.2f);
+        });
+        
+        grid.attach_next_to (
+            progress_button,
+            badge_button,
+            Gtk.PositionType.RIGHT, // To which side of widget
+            1, 1
+        );
+        
+        end_box.append (grid);
+        
+        var panel = new Gtk.Paned (Gtk.Orientation.HORIZONTAL) {
+            start_child = start_box,
+            end_child = end_box,
+            resize_start_child = false,
+            shrink_end_child = false,
+            shrink_start_child = false
+        };
+        
         var main_window = new Gtk.ApplicationWindow (this) {
-            child = grid,
-            default_height = 300,
-            default_width = 300,
-            title = "Hello World",
-            titlebar = headerbar
+            child = panel,
+            title = "My App",
+            default_width = 640,
+            default_height = 480,
+            titlebar = new Gtk.Grid () { visible = false }
         };
         
         main_window.present ();

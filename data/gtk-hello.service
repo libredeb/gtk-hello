@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=com.github.libredeb.gtk-hello
+Exec=com.github.libredeb.gtk-hello --gapplication-service
