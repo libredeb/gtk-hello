@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema path="/com/github/libredeb/gtk-hello/" id="com.github.libredeb.gtk-hello">
+    <key name="window-width" type="i">
+      <default>640</default>
+      <summary>Main window width</summary>
+      <description>Main window width measured in pixel</description>
+    </key>
+    <key name="window-height" type="i">
+      <default>480</default>
+      <summary>Main window height</summary>
+      <description>Main window height measured in pixel</description>
+    </key>
+    <!--Other Settings-->
+    <key name="useless-setting" type="b">
+      <default>false</default>
+      <summary>Useless Setting</summary>
+      <description>Whether the switch is toggled</description>
+    </key>
+  </schema>
+</schemalist>

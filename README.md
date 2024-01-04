@@ -1,6 +1,6 @@
 # gtk-hello
 
-This is an example Vala and GTK+ 4 Application (includes i18n translations, icons, metadata for appstore, and more).
+This is an example Vala and GTK+ 4 Application (includes i18n translations, save application state using GSettings, icons, metadata for appstore, and more).
 
 ![screenshot](./data/images/screenshot.png)
 

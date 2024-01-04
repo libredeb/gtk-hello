@@ -138,10 +138,10 @@ public class MyApp : Gtk.Application {
         // Attach second row of widgets
         grid.attach (goodbye_button, 1, 2);
         grid.attach_next_to (
-            goodbye_label,
-            goodbye_button,
-            Gtk.PositionType.BOTTOM, // To which side of widget
-            1, 1
+            goodbye_label, // Put this objet
+            goodbye_button, // In reference to this objet
+            Gtk.PositionType.BOTTOM, // To which side of referenced widget
+            1, 1 // Size of the target widget
         );
         grid.attach (vertical_separator, 0, 0, 1, 9);
         
@@ -170,6 +170,40 @@ public class MyApp : Gtk.Application {
         
         end_box.append (grid);
         
+        // Test GSettings to save the state of this switch
+        // and the main_window size and position.
+        // Commonly settings object goes at the beginning of activate () method
+        var settings = new GLib.Settings ("com.github.libredeb.gtk-hello");
+        
+        var useless_switch = new Gtk.Switch () {
+            halign = CENTER,
+            valign = CENTER
+        };
+        
+        grid.attach_next_to (
+            useless_switch,
+            goodbye_button,
+            Gtk.PositionType.RIGHT,
+            1, 1
+        );
+        
+        settings.bind ("useless-setting", useless_switch, "active", DEFAULT);
+        // --------------------------------------------------------------------
+        
+        // Using the user's style preference (light or dark)
+        // First we get the default instances for Granite.Settings and Gtk.Settings
+        var granite_settings = Granite.Settings.get_default ();
+        var gtk_settings = Gtk.Settings.get_default ();
+        
+        // Then, we check if the user's preference is for the dark style and set it if it is
+        gtk_settings.gtk_application_prefer_dark_theme = granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
+
+        // Finally, we listen to changes in Granite.Settings and update our app if the user changes their preference
+        granite_settings.notify["prefers-color-scheme"].connect (() => {
+            gtk_settings.gtk_application_prefer_dark_theme = granite_settings.prefers_color_scheme == Granite.Settings.ColorScheme.DARK;
+        });
+        // --------------------------------------------------------------------
+        
         var panel = new Gtk.Paned (Gtk.Orientation.HORIZONTAL) {
             start_child = start_box,
             end_child = end_box,
@@ -181,10 +215,22 @@ public class MyApp : Gtk.Application {
         var main_window = new Gtk.ApplicationWindow (this) {
             child = panel,
             title = "My App",
-            default_width = 640,
-            default_height = 480,
+            default_width = settings.get_int ("window-width"),
+            default_height = settings.get_int ("window-height"),
             titlebar = new Gtk.Grid () { visible = false }
         };
+        
+        main_window.close_request.connect (() => {
+            int w, h;
+            
+            w = main_window.get_width ();
+            h = main_window.get_height ();
+            
+            settings.set_int ("window-width", w);
+    		settings.set_int ("window-height", h);
+    		
+    		return false;
+        });
         
         main_window.present ();
     }

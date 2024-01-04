@@ -61,3 +61,8 @@ install_data(
     install_dir: get_option('datadir') / 'dbus-1' / 'services',
     rename: meson.project_name() + '.service',
 )
+
+gnome = import('gnome')
+gnome.post_install(glib_compile_schemas: true)
+
+subdir('data')
